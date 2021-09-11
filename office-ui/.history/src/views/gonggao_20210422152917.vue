@@ -1,5 +1,0 @@
-<template>
-</temlate>
-<script>
-
-</script>

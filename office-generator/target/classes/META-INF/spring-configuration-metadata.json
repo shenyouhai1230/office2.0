@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "gen",
+      "type": "com.office.generator.config.GenConfig",
+      "sourceType": "com.office.generator.config.GenConfig"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.jobtask.mapper.TaskbasicMapper">
+    
+    <resultMap type="Taskbasic" id="TaskbasicResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="counts"    column="counts"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTaskbasicVo">
+        select id, name, counts, update_time from taskbasic
+    </sql>
+
+    <select id="selectTaskbasicList" parameterType="Taskbasic" resultMap="TaskbasicResult">
+        <include refid="selectTaskbasicVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="counts != null "> and counts = #{counts}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskbasicById" parameterType="String" resultMap="TaskbasicResult">
+        <include refid="selectTaskbasicVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTaskbasic" parameterType="Taskbasic">
+        insert into taskbasic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="counts != null">counts,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="counts != null">#{counts},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTaskbasic" parameterType="Taskbasic">
+        update taskbasic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="counts != null">counts = #{counts},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTaskbasicById" parameterType="String">
+        delete from taskbasic where id = #{id}
+    </delete>
+
+    <delete id="deleteTaskbasicByIds" parameterType="String">
+        delete from taskbasic where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

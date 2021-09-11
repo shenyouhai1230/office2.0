@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.jobtask.mapper.TaskdetailedMapper">
+    
+    <resultMap type="Taskdetailed" id="TaskdetailedResult">
+        <result property="xqid"    column="xqid"    />
+        <result property="bgid"    column="bgid"    />
+        <result property="taskname"    column="taskname"    />
+        <result property="begintime"    column="begintime"    />
+        <result property="endtime"    column="endtime"    />
+        <result property="ywname"    column="ywname"    />
+        <result property="hdname"    column="hdname"    />
+        <result property="qdname"    column="qdname"    />
+        <result property="state"    column="state"    />
+        <result property="xqquestion"    column="xqquestion"    />
+        <result property="jkquestion"    column="jkquestion"    />
+        <result property="csquestion"    column="csquestion"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="kfdays"    column="kfDays"    />
+        <result property="usedmanhours"    column="usedManHours"    />
+        <result property="totalmanhours"    column="totalManHours"    />
+    </resultMap>
+
+    <sql id="selectTaskdetailedVo">
+        select xqid, bgid, taskname, begintime, endtime, ywname, hdname, qdname, state, xqquestion, jkquestion, csquestion, update_time,kfDays,usedManHours,totalManHours from taskdetailed
+    </sql>
+
+    <select id="selectTaskdetailedList" parameterType="Taskdetailed" resultMap="TaskdetailedResult">
+        <include refid="selectTaskdetailedVo"/>
+        <where>  
+            <if test="xqid != null  and xqid != ''"> and xqid = #{xqid}</if>
+            <if test="bgid != null  and bgid != ''"> and bgid = #{bgid}</if>
+            <if test="taskname != null  and taskname != ''"> and taskname like concat('%', #{taskname}, '%')</if>
+            <if test="begintime != null  and begintime != ''"> and begintime = #{begintime}</if>
+            <if test="endtime != null  and endtime != ''"> and endtime = #{endtime}</if>
+            <if test="ywname != null  and ywname != ''"> and ywname like concat('%', #{ywname}, '%')</if>
+            <if test="hdname != null  and hdname != ''"> and hdname like concat('%', #{hdname}, '%')</if>
+            <if test="qdname != null  and qdname != ''"> and qdname like concat('%', #{qdname}, '%')</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="xqquestion != null  and xqquestion != ''"> and xqquestion = #{xqquestion}</if>
+            <if test="jkquestion != null  and jkquestion != ''"> and jkquestion = #{jkquestion}</if>
+            <if test="csquestion != null  and csquestion != ''"> and csquestion = #{csquestion}</if>
+            <if test="kfdays != null  and kfdays != ''"> and kfDays = #{kfdays}</if>
+            <if test="usedmanhours != null  and usedmanhours != ''"> and usedManHours = #{usedmanhours}</if>
+            <if test="totalmanhours != null  and totalmanhours != ''"> and totalManHours = #{totalmanhours}</if>
+
+            and state not in ( '已上线','关停') order by qdname
+        </where>
+    </select>
+    
+    <select id="selectTaskdetailedById" parameterType="String" resultMap="TaskdetailedResult">
+        <include refid="selectTaskdetailedVo"/>
+        where xqid = #{xqid}
+    </select>
+        
+    <insert id="insertTaskdetailed" parameterType="Taskdetailed">
+        insert into taskdetailed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xqid != null">xqid,</if>
+            <if test="bgid != null">bgid,</if>
+            <if test="taskname != null and taskname != ''">taskname,</if>
+            <if test="begintime != null">begintime,</if>
+            <if test="endtime != null">endtime,</if>
+            <if test="ywname != null">ywname,</if>
+            <if test="hdname != null">hdname,</if>
+            <if test="qdname != null">qdname,</if>
+            <if test="state != null">state,</if>
+            <if test="xqquestion != null">xqquestion,</if>
+            <if test="jkquestion != null">jkquestion,</if>
+            <if test="csquestion != null">csquestion,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="kfdays != null and kfdays != ''">kfDays,</if>
+            <if test="usedmanhours != null and usedmanhours != ''">usedManHours,</if>
+            <if test="totalmanhours != null and totalmanhours != ''">totalManHours,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xqid != null">#{xqid},</if>
+            <if test="bgid != null">#{bgid},</if>
+            <if test="taskname != null and taskname != ''">#{taskname},</if>
+            <if test="begintime != null">#{begintime},</if>
+            <if test="endtime != null">#{endtime},</if>
+            <if test="ywname != null">#{ywname},</if>
+            <if test="hdname != null">#{hdname},</if>
+            <if test="qdname != null">#{qdname},</if>
+            <if test="state != null">#{state},</if>
+            <if test="xqquestion != null">#{xqquestion},</if>
+            <if test="jkquestion != null">#{jkquestion},</if>
+            <if test="csquestion != null">#{csquestion},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="kfdays != null and kfdays != ''">#{kfdays},</if>
+            <if test="usedmanhours != null and usedmanhours != ''">#{usedmanhours},</if>
+            <if test="totalmanhours != null and totalmanhours != ''">#{totalmanhours},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTaskdetailed" parameterType="Taskdetailed">
+        update taskdetailed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bgid != null">bgid = #{bgid},</if>
+            <if test="taskname != null and taskname != ''">taskname = #{taskname},</if>
+            <if test="begintime != null">begintime = #{begintime},</if>
+            <if test="endtime != null">endtime = #{endtime},</if>
+            <if test="ywname != null">ywname = #{ywname},</if>
+            <if test="hdname != null">hdname = #{hdname},</if>
+            <if test="qdname != null">qdname = #{qdname},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="xqquestion != null">xqquestion = #{xqquestion},</if>
+            <if test="jkquestion != null">jkquestion = #{jkquestion},</if>
+            <if test="csquestion != null">csquestion = #{csquestion},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="kfdays != null and kfdays != ''">kfDays = #{kfdays},</if>
+            <if test="usedmanhours != null and usedmanhours != ''">usedManHours = #{usedmanhours},</if>
+            <if test="totalmanhours != null and totalmanhours != ''">totalManHours = #{totalmanhours},</if>
+
+        </trim>
+        where xqid = #{xqid}
+    </update>
+
+    <delete id="deleteTaskdetailedById" parameterType="String">
+        delete from taskdetailed where xqid = #{xqid}
+    </delete>
+
+    <delete id="deleteTaskdetailedByIds" parameterType="String">
+        delete from taskdetailed where xqid in 
+        <foreach item="xqid" collection="array" open="(" separator="," close=")">
+            #{xqid}
+        </foreach>
+    </delete>
+    <select id="selectTaskdetailedByQdname" parameterType="String" resultType="map">
+         select qdname, jkquestion  from taskdetailed where state in (#{state1},#{state2}) and qdname = #{qdname}
+    </select>
+</mapper>
